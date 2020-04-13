@@ -1,0 +1,93 @@
+import java.time.LocalDate;
+import java.util.*;
+
+public class Task {
+	private String name;
+	private double hrs;
+	private ArrayList<Double> fifteensPerDay = new ArrayList<Double>();
+	private double daysTillDue;
+	private LocalDate startDate;
+	private final double key;
+	final static double INCREMENT = 1E-4;
+	
+	public Task(String name, double hrs, int daysTillDue, double key) {
+		this.name = name;
+		this.hrs = hrs;
+		this.daysTillDue = daysTillDue;
+		this.key = key;
+		fifteensPerDay = amountPerDay(fifteens(hrs), daysTillDue, fifteensPerDay);
+		startDate = LocalDate.now();
+	}
+	
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+	
+	public double getDaysTillDue() {
+		return daysTillDue;
+	}
+	
+	public ArrayList<Double> getFifteensPerDay() {
+		return fifteensPerDay;
+	}
+	
+	public double getKey() {
+		return key;
+	}
+	
+	public String toString() {
+		return name;
+	}
+	
+	private static double fifteens(double hrs) {
+    	return hrs*4;
+    }
+	
+	private static ArrayList<Double> amountPerDay(double fifteens, double daysTillDue, ArrayList<Double> fifteensPerDay) {
+    	double total = integral(0, 4, x -> {
+			return (1/Math.sqrt(2*Math.PI))*(Math.pow(Math.E,-(Math.pow(x-2, 2)/2)));
+		});
+    	double plusNextDay = 4/(daysTillDue+1);
+    	for (int i = 1; i <= daysTillDue+1; i++) {
+			double hrsToday = integral(plusNextDay*(i-1), plusNextDay*i, x -> {
+				return (1/Math.sqrt(2*Math.PI))*(Math.pow(Math.E,-(Math.pow(x-2, 2)/2)));
+			});
+			//hrsPerDay.add(hrsToday/total);
+			fifteensPerDay.add((double) Math.round(hrsToday/total*fifteens));
+			//hrsPerDay.add((hrsToday/total*hrs));
+		}
+    	double totalTime = 0;
+    	while(totalTime != fifteens) {
+    		totalTime = 0;
+    		for (double time : fifteensPerDay) {
+        		totalTime += time;
+        	}
+    		if (totalTime < fifteens){
+        		fifteensPerDay.set((int) Math.floor(fifteensPerDay.size()/2), Math.floor(fifteensPerDay.get(fifteensPerDay.size()/2))+1);
+        	}
+        	else if (totalTime > fifteens){
+        		fifteensPerDay.set((int) Math.floor(fifteensPerDay.size()/2), Math.floor(fifteensPerDay.get(fifteensPerDay.size()/2))-1);
+        	}
+    	}
+		return fifteensPerDay;
+	}
+   
+    
+	//Source for integration method: https://gist.github.com/JoseRivas1998/f6642e1e8dcea665b12e0f7264d3e088 -- courtesy to Jose Rivas
+    private static double integral(double a, double b, Function function) {
+        double area = 0;
+        double modifier = 1;
+        if(a > b) {
+            double tempA = a;
+            a = b;
+            b = tempA;
+            modifier = -1;
+        }
+        for(double i = a + INCREMENT; i < b; i += INCREMENT) {
+            double dFromA = i - a;
+            area += (INCREMENT / 2) * (function.f(a + dFromA) + function.f(a + dFromA - INCREMENT));
+        }
+        return (Math.round(area * 1000.0) / 1000.0) * modifier;
+    }
+
+}
