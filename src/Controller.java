@@ -79,8 +79,21 @@ public class Controller{
 		return tasksInDay;
 	}*/
 	
-	public void removeTask() {
-		
+	public void removeTask(Task task) {
+		LocalDate startDate = task.getStartDate();
+		double daysTillDue = task.getDaysTillDue();
+		for (int d = 0; d <= daysTillDue; d++) {
+			Day day = days.get(startDate);
+			for (int i = 0; i < day.getDay().length; i++) {
+				double[] dayList = day.getDay();
+				if (dayList[i] == task.getKey()) {
+					day.setIndex(i, 0);
+					days.replace(startDate, priorityReschedule(day));
+				}
+			}
+			startDate.plusDays(1);
+		}
+		tasks.remove(task.getKey());
 	}
 	
 	private void checkOverflow () {
