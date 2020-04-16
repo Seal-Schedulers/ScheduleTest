@@ -45,7 +45,6 @@ public class Task {
 		return daysTillDue;
 	}
 	
-	
 	public double getCurrentDaysTillDue(LocalDate today) {
 		double days = 0;
 		for(LocalDate day = startDate; !day.equals(today); day = day.plusDays(1)) {
