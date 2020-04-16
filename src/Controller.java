@@ -127,12 +127,12 @@ public class Controller{
 	    return day;
 	}
 	
-	/*private int compareTo(Task task1, Task task2) {
-		double daysTillDue1 = task1.getDaysTillDue();
-		double daysTillDue2 = task2.getDaysTillDue();
+	/*private boolean compareTo(Task task1, Task task2) {
+		double daysTillDue1 = task1.getCurrentDaysTillDue();
+		double daysTillDue2 = task2.getCurrentDaysTillDue();
 		if (daysTillDue1 > daysTillDue2) {
-			return 2;
+			return true;
 		}
-		return 1;
+		return false;
 	}*/
 }
