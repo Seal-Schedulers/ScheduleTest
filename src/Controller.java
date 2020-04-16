@@ -37,7 +37,8 @@ public class Controller{
 						double[] dayList = day.getDay();
 						if (dayList[i] == 0) {
 							day.setIndex(i, task.getKey());
-							days.replace(startDate, priorityReschedule(day));
+							days.replace(startDate, day);
+							days.replace(startDate, priorityReschedule(startDate));
 							break;
 						}
 					}
@@ -88,7 +89,8 @@ public class Controller{
 				double[] dayList = day.getDay();
 				if (dayList[i] == task.getKey()) {
 					day.setIndex(i, 0);
-					days.replace(startDate, priorityReschedule(day));
+					days.replace(startDate, day);
+					days.replace(startDate, priorityReschedule(startDate));
 				}
 			}
 			startDate.plusDays(1);
@@ -100,8 +102,8 @@ public class Controller{
 		
 	}
 	
-	private Day priorityReschedule(Day day) {
-		//Task[] tasksInDay = getTaskFromDay(startDate);
+	private Day priorityReschedule(LocalDate today) {
+		Day day = days.get(today);
 		boolean sorted = false;
 	    double temp;
 	    while(!sorted) {
@@ -114,7 +116,7 @@ public class Controller{
 	        	if (!tasks.containsKey(day.getDay()[i+1])) {
 	        		continue;
 	        	}
-	        	else if (tasks.get(day.getDay()[i]).getDaysTillDue() > tasks.get(day.getDay()[i+1]).getDaysTillDue()) {
+	        	else if (tasks.get(day.getDay()[i]).getCurrentDaysTillDue(today) > tasks.get(day.getDay()[i+1]).getCurrentDaysTillDue(today)) {
 		            temp = day.getDay()[i];
 		            day.setIndex(i, day.getDay()[i+1]);
 		            day.setIndex(i+1, temp);
