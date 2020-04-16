@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Task {
+	// Data
 	private String name;
 	private double hrs;
 	private ArrayList<Double> fifteensPerDay = new ArrayList<Double>();
@@ -9,7 +10,15 @@ public class Task {
 	private LocalDate startDate;
 	private final double key;
 	final static double INCREMENT = 1E-4;
-	
+
+	// Constructors
+	/**
+	 * constructs a task object 
+	 * @param name: the name of the task
+	 * @param hrs: the total hours required for the task
+	 * @param daysTillDue: the number of days until the task is due
+	 * @param key: the reference for the task
+	 */
 	public Task(String name, double hrs, int daysTillDue, double key) {
 		this.name = name;
 		this.hrs = hrs;
@@ -19,22 +28,39 @@ public class Task {
 		startDate = LocalDate.now();
 	}
 	
+	// Methods
+	
+	/**
+	 * gets the current date as the start date of the task
+	 * @return the start date / current date
+	 */
 	public LocalDate getStartDate() {
 		return startDate;
 	}
-	
+	/**
+	 * gets the number of days until the task is due
+	 * @return the number of days until the task is due
+	 */
 	public double getDaysTillDue() {
 		return daysTillDue;
 	}
-	
+	/**
+	 * gets the list of the fifteen minute segments required to do the task each day
+	 * @return ArrayList with the number of fifteen minute segments needed for the task each day
+	 */
 	public ArrayList<Double> getFifteensPerDay() {
 		return fifteensPerDay;
 	}
-	
+	/**
+	 * get the reference associated with the task
+	 * @return the key for the task
+	 */
 	public double getKey() {
 		return key;
 	}
-	
+	/**
+	 * converts to a String
+	 */
 	public String toString() {
 		return name;
 	}

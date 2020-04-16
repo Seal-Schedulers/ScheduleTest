@@ -10,11 +10,22 @@ public class Time {
     	ArrayList<Double> fifteensPerDay = new ArrayList<Double>();
         System.out.println(amountPerDay(fifteens(hrs), daysTillDue, fifteensPerDay));
     }
-    
+    /**
+     * converts the number of hours into the number of fifteen minute segments
+     * @param hrs: the total number of hours the task requires
+     * @return the number of fifteen minute segments the task requires
+     */
     public static double fifteens(double hrs) {
     	return hrs*4;
     }
-    
+    /**
+     * calculates the number of fifteen minute segments needed for the task each day
+     * uses a bell curve formula to divide the workload
+     * @param fifteens: the number of fifteen minute segments required for the task
+     * @param daysTillDue: the number of days until the task is due
+     * @param fifteensPerDay: the number of fifteen minute segments to work each day
+     * @return ArrayList with the number of fifteen minute segments needed for the task each day
+     */
     public static ArrayList<Double> amountPerDay(double fifteens, double daysTillDue, ArrayList<Double> fifteensPerDay) {
     	double total = integral(0, 4, x -> {
 			return (1/Math.sqrt(2*Math.PI))*(Math.pow(Math.E,-(Math.pow(x-2, 2)/2)));

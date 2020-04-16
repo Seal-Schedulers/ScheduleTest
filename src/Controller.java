@@ -2,16 +2,24 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Controller{
+	// Data
 	private HashMap<Double, Task> tasks;
 	private HashMap<LocalDate, Day> days;
 	private static double reference = 0.1;
 
-	
+	// Constructors
 	public Controller() {
 		tasks = new HashMap<Double, Task>();
 		days = new HashMap<LocalDate, Day>();
 	}
-
+	
+	// Methods
+	/**
+	 * creates a task object using the Task class 
+	 * @param name
+	 * @param hrs
+	 * @param daysTillDue
+	 */
 	public void createTask(String name, double hrs, int daysTillDue) {
 		Task task = new Task(name, hrs, daysTillDue, reference);
 		addTask(task);
