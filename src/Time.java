@@ -5,16 +5,30 @@ public class Time {
     public static final double INCREMENT = 1E-4;
 
     public static void dummy(){
+		System.out.println("1");
+		System.out.println("1");
+		System.out.println("2");
 		System.out.println("");
 		System.out.println("");
+		System.out.println("4");
+		System.out.println("");
+		System.out.println("5");
 		System.out.println("");
 		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
+	}
+    
+    public static void dummy1(){
+		System.out.println("hello");
+		System.out.println("hi");
+		System.out.println("whats");
+		System.out.println("up");
+		System.out.println("cool");
+		System.out.println("hello");
+		System.out.println("hi");
+		System.out.println("whats");
+		System.out.println("up");
+		System.out.println("cool");
+		System.out.println("hello");
 	}
     
     public static void main(String[] args) {
