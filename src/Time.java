@@ -49,6 +49,10 @@ public class Time {
     	System.out.println("hey advika, what's up?");
     }
     
+    public static void dummy4() {
+    	System.out.println("hey ms. taricco, what's up?");
+    }
+    
     public static void main(String[] args) {
     	double hrs = 72;
     	double daysTillDue = 30;
