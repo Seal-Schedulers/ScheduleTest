@@ -31,19 +31,6 @@ public class Time {
 		System.out.println("hello");
 	}
     
-   
-    public static void dummy2() {
-    	System.out.println("yo");
-    	System.out.println("hi");
-    	System.out.println("cool");
-    	System.out.println("advika");
-    	System.out.println("amrita");
-    	System.out.println("noe");
-    	System.out.println("yoyo");
-    	System.out.println("hello");
-    	System.out.println("hey");
-    }
-    
     public static void main(String[] args) {
     	double hrs = 72;
     	double daysTillDue = 30;
