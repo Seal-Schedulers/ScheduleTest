@@ -1,9 +1,22 @@
 import java.util.ArrayList;
 
 public class Time {
-
+	
     public static final double INCREMENT = 1E-4;
 
+    public static void dummy(){
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+	}
+    
     public static void main(String[] args) {
     	double hrs = 72;
     	double daysTillDue = 30;
