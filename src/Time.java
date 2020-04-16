@@ -3,55 +3,6 @@ import java.util.ArrayList;
 public class Time {
 	
     public static final double INCREMENT = 1E-4;
-
-    public static void dummy(){
-		System.out.println("1");
-		System.out.println("1");
-		System.out.println("2");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("4");
-		System.out.println("");
-		System.out.println("5");
-		System.out.println("");
-		System.out.println("");
-	}
-    
-    public static void dummy1(){
-		System.out.println("hello");
-		System.out.println("hi");
-		System.out.println("whats");
-		System.out.println("up");
-		System.out.println("cool");
-		System.out.println("hello");
-		System.out.println("hi");
-		System.out.println("whats");
-		System.out.println("up");
-		System.out.println("cool");
-		System.out.println("hello");
-	}
-    
-    public static void dummy2(){
-		System.out.println("hey");
-		System.out.println("hi");
-		System.out.println("cool");
-		System.out.println("advika");
-		System.out.println("amrita");
-		System.out.println("noe");
-		System.out.println("yo");
-		System.out.println("hello");
-		System.out.println("yoyo");
-		System.out.println("what's poppin");
-		System.out.println("lol");
-    }
-    
-    public static void dummy3() {
-    	System.out.println("hey advika, what's up?");
-    }
-    
-    public static void dummy4() {
-    	System.out.println("hey ms. taricco, what's up?");
-    }
     
     public static void main(String[] args) {
     	double hrs = 72;
