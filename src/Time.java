@@ -31,6 +31,20 @@ public class Time {
 		System.out.println("hello");
 	}
     
+    public static void dummy2(){
+		System.out.println("hey");
+		System.out.println("hi");
+		System.out.println("cool");
+		System.out.println("advika");
+		System.out.println("amrita");
+		System.out.println("noe");
+		System.out.println("yo");
+		System.out.println("hello");
+		System.out.println("yoyo");
+		System.out.println("what's poppin");
+		System.out.println("lol");
+    }
+    
     public static void dummy3() {
     	System.out.println("hey advika, what's up?");
     }
