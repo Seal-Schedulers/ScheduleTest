@@ -45,6 +45,10 @@ public class Task {
 		return daysTillDue;
 	}
 	
+	/**
+	 * calculates the number of days until the task is due depending on the current day
+	 * @return the number of days until the task is due depending on the current day
+	 */
 	public double getCurrentDaysTillDue(LocalDate today) {
 		double days = 0;
 		for(LocalDate day = startDate; !day.equals(today); day = day.plusDays(1)) {
@@ -52,16 +56,15 @@ public class Task {
 		}
 		return daysTillDue - days;
 	}
-	
 
 	/**
 	 * gets the list of the fifteen minute segments required to do the task each day
 	 * @return ArrayList with the number of fifteen minute segments needed for the task each day
 	 */
-
 	public ArrayList<Double> getFifteensPerDay() {
 		return fifteensPerDay;
 	}
+	
 	/**
 	 * get the reference associated with the task
 	 * @return the key for the task
@@ -69,6 +72,7 @@ public class Task {
 	public double getKey() {
 		return key;
 	}
+	
 	/**
 	 * converts to a String
 	 */
