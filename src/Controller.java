@@ -66,6 +66,10 @@ public class Controller{
 		}
 	}
 	
+	/**
+	 * gets all the tasks in a day 
+	 * @param date
+	 */
 	public Task[] getTaskFromDay(LocalDate date) {
 		Day day = days.get(date);
 		double[] taskKeysInDay = day.getDay();
@@ -88,6 +92,10 @@ public class Controller{
 		return tasksInDay;
 	}*/
 	
+	/**
+	 * removes all instances of the task in a day and the tasks hashmap 
+	 * @param task
+	 */
 	public void removeTask(Task task) {
 		LocalDate startDate = task.getStartDate();
 		double daysTillDue = task.getDaysTillDue();
