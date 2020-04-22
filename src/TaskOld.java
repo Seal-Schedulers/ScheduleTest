@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.util.*;
 
-public class Task {
+public class TaskOld {
 	// Data
 	private String name;
 	private double hrs;
@@ -20,7 +20,7 @@ public class Task {
 	 * @param daysTillDue: the number of days until the task is due
 	 * @param key: the reference for the task
 	 */
-	public Task(String name, double hrs, int daysTillDue, double key, boolean block) {
+	public TaskOld(String name, double hrs, int daysTillDue, double key, boolean block) {
 		this.name = name;
 		this.hrs = hrs;
 		this.daysTillDue = daysTillDue;
