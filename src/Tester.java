@@ -4,6 +4,9 @@ import java.util.Arrays;
 public class Tester {
 
 	public static void main(String[] args) throws Exception {
+		/*for (Time i = new Time(); i.equals(new Time(23, 45)); i.increment()) {
+			System.out.println(i);
+		}
 		/*Time time = new Time();
 		System.out.println(time);
 		time.increment();
@@ -22,6 +25,7 @@ public class Tester {
 		controller1.createTask("Stem 2", 72, 30);
 		controller1.createTask("Stem 1", 2, 0);
 		//controller.createTask("Stem 3", 25, 0);
+		System.out.println(controller.get100());
 		System.out.println(Arrays.toString(controller.getTaskFromDay(date)));
 		System.out.println(Arrays.toString(controller1.getTaskFromDay(date)));
 		date = date.plusDays(1L);

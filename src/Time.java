@@ -12,12 +12,24 @@ public class Time {
 		this.min = min;
 	}
 	
+	public Time(Time time) {
+		this.hr = time.getHour();
+		this.min = time.getMinute();
+	}
+	
 	public int getHour() {
 		return hr;
 	}
 	
 	public int getMinute() {
 		return min;
+	}
+	
+	public boolean equals(Time time) {
+		if (time.getHour() == hr && time.getMinute() == min) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void increment() {
@@ -33,16 +45,6 @@ public class Time {
 		else {
 			min += 15;
 		}
-	}
-	
-	public boolean compareTo(Time t) {
-		if (t.getHour() < hr) {
-			return true;
-		}
-		else if (t.getHour() <= hr && t.getMinute() < min) {
-			return true;
-		}
-		return false;
 	}
 	
 	public String toString() {

@@ -18,9 +18,9 @@ public class Day {
 	 * @throws Exception 
 	 */
 	public void addTaskToDay(Time time, double value) throws Exception {
-		if (day.size() == 96) {
+		/*if (day.size() == 96) {
 			throw new Exception("overflow");
-		}
+		}*/
 		day.put(time, value);
 	}
 	
