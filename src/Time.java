@@ -26,10 +26,7 @@ public class Time {
 	}
 	
 	public boolean equals(Time time) {
-		if (time.getHour() == hr && time.getMinute() == min) {
-			return true;
-		}
-		return false;
+		return (time.getHour() == hr && time.getMinute() == min);
 	}
 	
 	public void increment() {

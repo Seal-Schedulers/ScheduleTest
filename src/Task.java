@@ -30,6 +30,14 @@ public class Task {
 		startDate = LocalDate.now();
 	}
 	
+	public Task(String name, Time start, Time end, double key, boolean block) {
+		this.name = name;
+		this.key = key;
+		this.block = block;
+		fifteensPerDay = amountPerDay(fifteens(hrs), daysTillDue, fifteensPerDay);
+		startDate = LocalDate.now();
+	}
+	
 	// Methods
 	
 	/**

@@ -6,13 +6,11 @@ public class Controller{
 	private HashMap<Double, Task> tasks;
 	private HashMap<LocalDate, Day> days;
 	private static double reference = 0.1;
-	private Time[] times = new Time[96];
 
 	// Constructors
 	public Controller() {
 		tasks = new HashMap<Double, Task>();
 		days = new HashMap<LocalDate, Day>();
-		fillTime();
 	}
 	
 	// Methods
@@ -27,17 +25,11 @@ public class Controller{
 		Task task = new Task(name, hrs, daysTillDue, reference, false);
 		addTask(task);
 		addToDay(task);
-		System.out.println(reference + " " + tasks.get(reference).toString() + " " + tasks.get(reference).getFifteensPerDay());
+		System.out.println(reference + " " + tasks.get(reference) + " " + tasks.get(reference).getFifteensPerDay());
 		LocalDate date = LocalDate.now();
 		//System.out.println(days.get(date).getCollection());
 		//System.out.println(Arrays.toString(days.get(task.getStartDate()).getDay()));
 		reference += 0.1;
-	}
-	
-	public double get100() {
-		Time time = new Time();
-		LocalDate date = LocalDate.now();
-		return days.get(date).getTaskKey(time);
 	}
 	
 	private void addTask(Task task) {
@@ -52,34 +44,23 @@ public class Controller{
 			for (double numFifteens = 0; numFifteens < fifteensPerDay.get(d); numFifteens++) {
 				if (days.containsKey(startDate)) {
 					Day day = days.get(startDate);
-					Time i = new Time();
-					do {
-						System.out.println("uncool");
-						if (!day.containsKey(i)) {
-							System.out.println("1");
-							day.addTaskToDay(new Time(i), task.getKey());
+					for(Time t : Day.allTimes) {
+						if (!day.containsKey(t)) {
+							day.addTaskToDay(t, task.getKey());
 							days.replace(startDate, day);
 							days.replace(startDate, priorityReschedule(startDate));
 							break;
 						}
-						i.increment();
 					}
-					while(!i.equals(new Time()));
-					System.out.println(i);
 				}
 				else {
 					Day day = new Day();
-					Time i = new Time();
-					do {
-						System.out.println("cool");
-						if (!day.containsKey(i)) {
-							day.addTaskToDay(new Time(i), task.getKey());
+					for(Time t : Day.allTimes) {
+						if (!day.containsKey(t)) {
+							day.addTaskToDay(t, task.getKey());
 							break;
 						}
-						i.increment();
 					}
-					while(!i.equals(new Time(0,0)));
-					System.out.println(i);
 					days.put(startDate, day);
 				}
 			}
@@ -87,7 +68,18 @@ public class Controller{
 		}
 	}
 	
-	public Task[] getTaskFromDay(LocalDate date) {
+	/*
+	public void getTaskFromDay(LocalDate date) {
+		Day day = days.get(date);
+		for (Time name: day.keySet()){
+            String key = name.toString();
+            Double value = day.getTaskKey(name);  
+            System.out.println(key + " " + value);  
+		} 
+	}
+	
+	
+	/*public Task[] getTaskFromDay(LocalDate date) {
 		Day day = days.get(date);
 		Collection<Double> taskKeys = day.getCollection();
 		Task[] tasksInDay = new Task[96];
@@ -97,27 +89,25 @@ public class Controller{
 			index++;
 		}
 		return tasksInDay;
-	}
+	}*/
 	
 	/**
 	 * gets all the tasks in a day 
 	 * @param date
 	 */
-	/*
-	public Task[] getTaskFromDay(LocalDate date) {
+	
+	public void getTaskFromDay(LocalDate date) {
 		Day day = days.get(date);
-		Task[] tasksInDay = new Task[96];
-		int index = 0;
-		for (Time time : times) {
+		for (Time time : Day.allTimes) {
 			if (day.containsKey(time)) {
-				tasksInDay[index] = tasks.get(day.getTaskKey(time));
+				System.out.println(time + " - " + tasks.get(day.getTaskKey(time)));
 			}
 			else {
-				continue;
+				break;
 			}
 		}
-		return tasksInDay;
 	}
+
 	
 	/*public ArrayList<Task> getTaskFromDay(LocalDate date) {
 		Day day = days.get(date);
@@ -155,36 +145,23 @@ public class Controller{
 		
 	}*/
 	
-	private void fillTime() {
-		Time time = new Time();
-		for (int i = 0; i < times.length; i++) {
-			times[i] = new Time(time);
-			time.increment();
-		}
-	}
-	
 	private Day priorityReschedule(LocalDate today) {
 		Day day = days.get(today);
 		boolean sorted = false;
 	    double temp;
-	    Time time1 = new Time();
-	    Time time2 = new Time(0, 15);
 	    while(!sorted) {
 	        sorted = true;
-	        for (int i = 0; i < day.getSize(); i++) {
-	        	if (!day.containsKey(time1) || !day.containsKey(time2)) {
+	        for (int i = 0; i < day.getSize() - 1; i++) {
+	        	if (!day.containsKey(Day.allTimes.get(i)) || !day.containsKey(Day.allTimes.get(i+1))) {
 	        		continue;
 	        	}
-	        	else if (tasks.get(day.getTaskKey(time1)).getCurrentDaysTillDue(today) > tasks.get(day.getTaskKey(time2)).getCurrentDaysTillDue(today)) {
-	        		temp = day.getTaskKey(time1);
-		            day.replace(time1, day.getTaskKey(time2));
-		            System.out.println("entered");
-		            day.replace(time2, temp);
+	        	else if (tasks.get(day.getTaskKey(Day.allTimes.get(i))).getCurrentDaysTillDue(today) > tasks.get(day.getTaskKey(Day.allTimes.get(i+1))).getCurrentDaysTillDue(today)) {
+	        		temp = day.getTaskKey(Day.allTimes.get(i));
+		            day.replace(Day.allTimes.get(i), day.getTaskKey(Day.allTimes.get(i+1)));
+		            day.replace(Day.allTimes.get(i+1), temp);
 		            sorted = false;
 		        }
 	        }
-	        time1.increment();
-	        time2.increment();
 	    }
 	    return day;
 	}

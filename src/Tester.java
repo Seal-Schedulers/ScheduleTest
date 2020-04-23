@@ -25,10 +25,8 @@ public class Tester {
 		controller1.createTask("Stem 2", 72, 30);
 		controller1.createTask("Stem 1", 2, 0);
 		//controller.createTask("Stem 3", 25, 0);
-		System.out.println(controller.get100());
-		System.out.println(Arrays.toString(controller.getTaskFromDay(date)));
+		controller.getTaskFromDay(date);
 		System.out.println(Arrays.toString(controller1.getTaskFromDay(date)));
-		date = date.plusDays(1L);
 		//System.out.println(controller.getTaskFromDay(date));
 		//System.out.println(Arrays.toString(controller.getTaskFromDay(date)));
 		date = date.plusDays(1L);
