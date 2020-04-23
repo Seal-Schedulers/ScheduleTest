@@ -26,7 +26,6 @@ public class Controller{
 		addTask(task);
 		addToDay(task);
 		System.out.println(reference + " " + tasks.get(reference) + " " + tasks.get(reference).getFifteensPerDay());
-		LocalDate date = LocalDate.now();
 		//System.out.println(days.get(date).getCollection());
 		//System.out.println(Arrays.toString(days.get(task.getStartDate()).getDay()));
 		reference += 0.1;
@@ -34,6 +33,68 @@ public class Controller{
 	
 	private void addTask(Task task) {
 		tasks.put(reference, task);
+	}
+	
+	public void createBlockTask(String name, Time start, Time end) throws Exception {
+		Task task = new Task(name, start, end, reference, true);
+		addTask(task);
+		blockTimeInDay(task);
+		System.out.println(reference + " " + tasks.get(reference));
+		reference += 0.1;
+	}
+	
+	private void blockTimeInDay(Task task) throws Exception {
+		if(!days.containsKey(task.getStartDate())) {
+			Day day = new Day();
+			Time time = new Time(task.getStart());
+			for (Time t: Day.allTimes) {
+				if (t.equals(task.getEnd())) {
+					day.addTaskToDay(t, task.getKey());
+					break;
+				}
+				else if(t.equals(time)) {
+					day.addTaskToDay(t, task.getKey());
+					time.increment();
+				}
+			}
+			days.put(task.getStartDate(), day);
+		}
+		/*else {
+			Day day = days.get(task.getKey());
+			Time time = new Time(task.getStart());
+			for (Time t: Day.allTimes) {
+				if (t.equals(task.getEnd())) {
+					if(day.containsKey(time)) {
+						double temp = day.getTaskKey(time);
+						day.replace(time, task.getKey());
+						for(Time k : Day.allTimes) {
+							if (!day.containsKey(t)) {
+								day.addTaskToDay(k, temp);
+							}
+						}
+					}
+					else {
+						day.addTaskToDay(t, task.getKey());
+					}
+					break;
+				}
+				else if(t.equals(time)) {
+					if(day.containsKey(time)) {
+						double temp = day.getTaskKey(time);
+						day.replace(time, task.getKey());
+						for(Time k : Day.allTimes) {
+							if (!day.containsKey(t)) {
+								day.addTaskToDay(k, temp);
+							}
+						}
+					}
+					else {
+						day.addTaskToDay(t, task.getKey());
+					}
+					time.increment();
+				}
+			}
+		}*/
 	}
 	
 	private void addToDay(Task task) throws Exception {

@@ -10,6 +10,8 @@ public class Task {
 	private LocalDate startDate;
 	private final double key;
 	private boolean block;
+	private Time start;
+	private Time end;
 	final static double INCREMENT = 1E-4;
 
 	// Constructors
@@ -34,7 +36,8 @@ public class Task {
 		this.name = name;
 		this.key = key;
 		this.block = block;
-		fifteensPerDay = amountPerDay(fifteens(hrs), daysTillDue, fifteensPerDay);
+		this.start = start;
+		this.end = end;
 		startDate = LocalDate.now();
 	}
 	
@@ -46,6 +49,14 @@ public class Task {
 	 */
 	public LocalDate getStartDate() {
 		return startDate;
+	}
+	
+	public Time getStart() {
+		return start;
+	}
+	
+	public Time getEnd() {
+		return end;
 	}
 	
 	/**

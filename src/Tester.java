@@ -13,10 +13,12 @@ public class Tester {
 		System.out.println(time);*/
 		LocalDate date = LocalDate.now();
 		Controller controller = new Controller();
+		controller.createBlockTask("Sleep", new Time(0,0), new Time(7, 45));
 		controller.createTask("Math", 1.5, 3);
 		controller.createTask("CS", 1, 0);
 		controller.createTask("Spanish", 1, 8);
 		controller.createTask("Stem 2", 72, 30);
+		//controller.createBlockTask("Nap time", new Time(9,0), new Time(10, 30));
 		controller.createTask("Stem 1", 2, 0);
 		ControllerOld controller1 = new ControllerOld();
 		controller1.createTask("Math", 1.5, 3);
