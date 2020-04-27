@@ -24,9 +24,6 @@ public class Day {
 	}
 	
 	public void addTaskToDay(Time time, double value) throws Exception {
-		/*if (day.size() == 96) {
-			throw new Exception("overflow");
-		}*/
 		day.put(time, value);
 	}
 	
@@ -36,6 +33,10 @@ public class Day {
 	
 	public double getTaskKey(Time time) {
 		return day.get(time);
+	}
+	
+	public void removeTaskKey(Time time) {
+		day.remove(time); 
 	}
 	
 	public boolean containsKey(Time time) {

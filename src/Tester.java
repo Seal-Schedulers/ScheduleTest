@@ -13,9 +13,10 @@ public class Tester {
 		System.out.println(time);*/
 		LocalDate date = LocalDate.now();
 		Controller controller = new Controller();
-		controller.createBlockTask("Sleep", new Time(0,0), new Time(7, 45));
+		controller.createBlockTask("Sleep", new Time(0,45), new Time(1, 45));
 		controller.createTask("Math", 1.5, 3);
 		controller.createTask("CS", 1, 0);
+		controller.createBlockTask("Sleep", new Time(2,45), new Time(5, 45));
 		controller.createTask("Spanish", 1, 8);
 		controller.createTask("Stem 2", 72, 30);
 		//controller.createBlockTask("Nap time", new Time(9,0), new Time(10, 30));

@@ -47,6 +47,7 @@ public class Controller{
 		if(!days.containsKey(task.getStartDate())) {
 			Day day = new Day();
 			Time time = new Time(task.getStart());
+			time.increment();
 			for (Time t: Day.allTimes) {
 				if (t.equals(task.getEnd())) {
 					day.addTaskToDay(t, task.getKey());
@@ -59,42 +60,36 @@ public class Controller{
 			}
 			days.put(task.getStartDate(), day);
 		}
-		/*else {
-			Day day = days.get(task.getKey());
+		else {
+			Day day = days.get(task.getStartDate());
 			Time time = new Time(task.getStart());
 			for (Time t: Day.allTimes) {
-				if (t.equals(task.getEnd())) {
-					if(day.containsKey(time)) {
-						double temp = day.getTaskKey(time);
-						day.replace(time, task.getKey());
-						for(Time k : Day.allTimes) {
-							if (!day.containsKey(t)) {
-								day.addTaskToDay(k, temp);
-							}
-						}
+				if (t.equals(time)) {
+					if (day.containsKey(t)) {
+						day = replace(day, t, task.getKey());
 					}
 					else {
 						day.addTaskToDay(t, task.getKey());
 					}
-					break;
 				}
-				else if(t.equals(time)) {
-					if(day.containsKey(time)) {
-						double temp = day.getTaskKey(time);
-						day.replace(time, task.getKey());
-						for(Time k : Day.allTimes) {
-							if (!day.containsKey(t)) {
-								day.addTaskToDay(k, temp);
-							}
-						}
-					}
-					else {
-						day.addTaskToDay(t, task.getKey());
-					}
-					time.increment();
-				}
+				time.increment();
 			}
-		}*/
+			days.replace(task.getStartDate(), day);
+		}
+	}
+	
+	private Day replace(Day day, Time t, double key) throws Exception {
+		double tempKey = day.getTaskKey(t);
+		day.removeTaskKey(new Time(t));
+		day.addTaskToDay(new Time(t), key);
+		t.increment();
+		if (!day.containsKey(t)) {
+			day.addTaskToDay(t, tempKey);
+			return day;
+		}
+		else {
+			return replace(day, t, tempKey);
+		}
 	}
 	
 	private void addToDay(Task task) throws Exception {
@@ -163,8 +158,11 @@ public class Controller{
 			if (day.containsKey(time)) {
 				System.out.println(time + " - " + tasks.get(day.getTaskKey(time)));
 			}
-			else {
+			else if (time.equals(new Time(23, 45))) {
 				break;
+			}
+			else {
+				continue;
 			}
 		}
 	}
