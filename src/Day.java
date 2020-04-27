@@ -23,19 +23,6 @@ public class Day {
 		day = new HashMap<Time, Double>();
 	}
 	
-	/*private void fillTime() {
-		Time time = new Time();
-		for (int i = 0; i < times.length; i++) {
-			times[i] = new Time(time);
-			time.increment();
-		}
-	}
-	
-	/**
-	 * sets the index of the day list with a value
-	 * used to be setIndex method
-	 * @throws Exception 
-	 */
 	public void addTaskToDay(Time time, double value) throws Exception {
 		/*if (day.size() == 96) {
 			throw new Exception("overflow");
@@ -70,15 +57,8 @@ public class Day {
 	public Set<Time> keySet() {
 		return day.keySet();
 	}
-	
-	/*public void printValues() {
-		for (Time i : times) {
-			System.out.println(i + " " + day.get(i));
-		}
-	}*/
-	
 
-
+	
 
 }
 

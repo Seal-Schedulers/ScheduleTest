@@ -32,11 +32,13 @@ public class Tester {
 		//System.out.println(controller.getTaskFromDay(date));
 		//System.out.println(Arrays.toString(controller.getTaskFromDay(date)));
 		date = date.plusDays(1L);
+		controller.getTaskFromDay(date);
+		System.out.println(Arrays.toString(controller1.getTaskFromDay(date)));
 		//System.out.println(controller.getTaskFromDay(date));
-		//System.out.println(Arrays.toString(controller.getTaskFromDay(date)));
 		date = date.plusDays(1L);
+		controller.getTaskFromDay(date);
 		//System.out.println(controller.getTaskFromDay(date));
-		//System.out.println(Arrays.toString(controller.getTaskFromDay(date)));
+		System.out.println(Arrays.toString(controller1.getTaskFromDay(date)));
 		date = date.plusDays(1L);
 		//System.out.println(controller.getTaskFromDay(date));
 		//System.out.println(Arrays.toString(controller.getTaskFromDay(date)));

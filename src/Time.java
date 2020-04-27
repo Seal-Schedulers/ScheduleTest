@@ -52,6 +52,23 @@ public class Time {
 		else {
 			minutes = Integer.toString(min);
 		}
-		return Integer.toString(hr) + ":" + minutes;
+		String hours = "";
+		if (hr == 0) {
+			hours = Integer.toString(hr+12);
+		}
+		else if (hr <= 12) {
+			hours = Integer.toString(hr);
+		}
+		else {
+			hours = Integer.toString(hr - 12);
+		}
+		String ending = "";
+		if (hr < 12) {
+			ending = " AM";
+		}
+		else {
+			ending = " PM";
+		}
+		return hours + ":" + minutes + ending;
 	}
 }
