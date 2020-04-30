@@ -33,9 +33,9 @@ public class CSVWriterTester {
             writer.writeNext(header); 
       
             // add data to csv 
-            String[] data1 = { "Will", "11", "100", "Math" }; 
+            String[] data1 = { "Noe", "11", "100", "Math" }; 
             writer.writeNext(data1); 
-            String[] data2 = { "Sanjana", "11", "90", "Chemistry" }; 
+            String[] data2 = { "Advika", "11", "100", "Chemistry" }; 
             writer.writeNext(data2); 
       
             // closing writer connection 
