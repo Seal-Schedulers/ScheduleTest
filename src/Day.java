@@ -13,7 +13,6 @@ public class Day {
 		time.increment();
 	}
 	while(!time.equals(new Time(0,0)));
-	
 	}
 	
 	/**
@@ -21,9 +20,12 @@ public class Day {
 	 */
 	public Day() {
 		day = new HashMap<Time, Double>();
+		for (Time t : allTimes) {
+			day.put(t, 0.0);
+		}
 	}
 	
-	public void addTaskToDay(Time time, double value) throws Exception {
+	public void addTaskToDay(Time time, double value) {
 		day.put(time, value);
 	}
 	

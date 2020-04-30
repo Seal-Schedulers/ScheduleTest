@@ -12,13 +12,16 @@ public class Tester {
 		time.increment();
 		System.out.println(time);*/
 		LocalDate date = LocalDate.now();
+		LocalDate date1 = LocalDate.of(2014, 2, 1);
+		System.out.println(date1);
 		Controller controller = new Controller();
-		controller.createBlockTask("Sleep", new Time(0,45), new Time(1, 45));
+		controller.createBlockTask("Sleep", new Time(0,0), new Time(7, 45));
 		controller.createTask("Math", 1.5, 3);
 		controller.createTask("CS", 1, 0);
-		controller.createBlockTask("Sleep", new Time(2,45), new Time(5, 45));
 		controller.createTask("Spanish", 1, 8);
 		controller.createTask("Stem 2", 72, 30);
+		controller.saveSchedule();
+		//controller.createBlockTask("Sleep", new Time(2,45), new Time(5, 45));
 		//controller.createBlockTask("Nap time", new Time(9,0), new Time(10, 30));
 		controller.createTask("Stem 1", 2, 0);
 		ControllerOld controller1 = new ControllerOld();

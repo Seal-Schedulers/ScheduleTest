@@ -1,7 +1,18 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Controller{
+import com.opencsv.CSVWriter;
+
+public class Controller {
+	
+	File tasksFile = new File("src\\tasks.csv");
+	File schedulesFile = new File("src\\schedules.csv");
+	File blockedtasksFile = new File("src\\blockedtasks.csv");	
+    
 	// Data
 	private HashMap<Double, Task> tasks;
 	private HashMap<LocalDate, Day> days;
@@ -19,42 +30,70 @@ public class Controller{
 	 * @param name
 	 * @param hrs
 	 * @param daysTillDue
-	 * @throws Exception 
+	 * @  
 	 */
-	public void createTask(String name, double hrs, int daysTillDue) throws Exception {
-		Task task = new Task(name, hrs, daysTillDue, reference, false);
-		addTask(task);
+	public void createTask(String name, double hrs, int daysTillDue)   {
+		LocalDate today = LocalDate.now();
+		Task task = new Task(name, hrs, daysTillDue, reference, today);
+		tasks.put(reference, task);
 		addToDay(task);
+        try { 
+        	FileWriter outputfile = new FileWriter(tasksFile, true); 
+        	BufferedWriter br = new BufferedWriter(outputfile);
+            // create CSVWriter object filewriter object as parameter 
+            CSVWriter writer = new CSVWriter(br); 
+            
+            String[] taskData = {name, Double.toString(hrs), Integer.toString(daysTillDue), Double.toString(task.getKey()), Integer.toString(task.getStartDate().getYear()), Integer.toString(task.getStartDate().getMonthValue()), Integer.toString(task.getStartDate().getDayOfMonth())}; 
+            writer.writeNext(taskData);
+            // closing writer connection 
+            writer.close(); 
+        } 
+        catch (IOException e) { 
+            // TODO Auto-generated catch block 
+            e.printStackTrace(); 
+        } 
 		System.out.println(reference + " " + tasks.get(reference) + " " + tasks.get(reference).getFifteensPerDay());
 		//System.out.println(days.get(date).getCollection());
 		//System.out.println(Arrays.toString(days.get(task.getStartDate()).getDay()));
 		reference += 0.1;
 	}
 	
-	private void addTask(Task task) {
+	public void createBlockTask(String name, Time start, Time end)   {
+		LocalDate today = LocalDate.now();
+		Task task = new Task(name, start, end, reference, today);
 		tasks.put(reference, task);
-	}
-	
-	public void createBlockTask(String name, Time start, Time end) throws Exception {
-		Task task = new Task(name, start, end, reference, true);
-		addTask(task);
 		blockTimeInDay(task);
 		System.out.println(reference + " " + tasks.get(reference));
+		try { 
+        	FileWriter outputfile = new FileWriter(blockedtasksFile, true); 
+        	BufferedWriter br = new BufferedWriter(outputfile);
+            // create CSVWriter object filewriter object as parameter 
+            CSVWriter writer = new CSVWriter(br); 
+            
+            String[] blockedData = {name, Integer.toString(start.getHour()), Integer.toString(start.getMinute()), Integer.toString(end.getHour()), Integer.toString(end.getMinute()), Double.toString(task.getKey()), Integer.toString(task.getStartDate().getYear()), Integer.toString(task.getStartDate().getMonthValue()), Integer.toString(task.getStartDate().getDayOfMonth())}; 
+            writer.writeNext(blockedData);
+            // closing writer connection 
+            writer.close(); 
+        } 
+        catch (IOException e) { 
+            // TODO Auto-generated catch block 
+            e.printStackTrace(); 
+        } 
 		reference += 0.1;
 	}
 	
-	private void blockTimeInDay(Task task) throws Exception {
+	private void blockTimeInDay(Task task) {
 		if(!days.containsKey(task.getStartDate())) {
 			Day day = new Day();
 			Time time = new Time(task.getStart());
 			time.increment();
 			for (Time t: Day.allTimes) {
 				if (t.equals(task.getEnd())) {
-					day.addTaskToDay(t, task.getKey());
+					day.replace(t, task.getKey());
 					break;
 				}
 				else if(t.equals(time)) {
-					day.addTaskToDay(t, task.getKey());
+					day.replace(t, task.getKey());
 					time.increment();
 				}
 			}
@@ -65,34 +104,15 @@ public class Controller{
 			Time time = new Time(task.getStart());
 			for (Time t: Day.allTimes) {
 				if (t.equals(time)) {
-					if (day.containsKey(t)) {
-						day = replace(day, t, task.getKey());
-					}
-					else {
-						day.addTaskToDay(t, task.getKey());
-					}
+					
 				}
-				time.increment();
 			}
 			days.replace(task.getStartDate(), day);
 		}
 	}
 	
-	private Day replace(Day day, Time t, double key) throws Exception {
-		double tempKey = day.getTaskKey(t);
-		day.removeTaskKey(new Time(t));
-		day.addTaskToDay(new Time(t), key);
-		t.increment();
-		if (!day.containsKey(t)) {
-			day.addTaskToDay(t, tempKey);
-			return day;
-		}
-		else {
-			return replace(day, t, tempKey);
-		}
-	}
 	
-	private void addToDay(Task task) throws Exception {
+	private void addToDay(Task task) {
 		ArrayList<Double> fifteensPerDay = task.getFifteensPerDay();
 		LocalDate startDate = task.getStartDate();
 		int daysTillDue = (int) task.getDaysTillDue();
@@ -101,8 +121,8 @@ public class Controller{
 				if (days.containsKey(startDate)) {
 					Day day = days.get(startDate);
 					for(Time t : Day.allTimes) {
-						if (!day.containsKey(t)) {
-							day.addTaskToDay(t, task.getKey());
+						if (day.getTaskKey(t) == 0.0) {
+							day.replace(t, task.getKey());
 							days.replace(startDate, day);
 							days.replace(startDate, priorityReschedule(startDate));
 							break;
@@ -112,8 +132,8 @@ public class Controller{
 				else {
 					Day day = new Day();
 					for(Time t : Day.allTimes) {
-						if (!day.containsKey(t)) {
-							day.addTaskToDay(t, task.getKey());
+						if (day.getTaskKey(t) == 0.0) {
+							day.replace(t, task.getKey());
 							break;
 						}
 					}
@@ -124,85 +144,26 @@ public class Controller{
 		}
 	}
 	
-	/*
-	public void getTaskFromDay(LocalDate date) {
-		Day day = days.get(date);
-		for (Time name: day.keySet()){
-            String key = name.toString();
-            Double value = day.getTaskKey(name);  
-            System.out.println(key + " " + value);  
-		} 
-	}
-	
-	
-	/*public Task[] getTaskFromDay(LocalDate date) {
-		Day day = days.get(date);
-		Collection<Double> taskKeys = day.getCollection();
-		Task[] tasksInDay = new Task[96];
-		int index = 0;
-		for (double key : taskKeys) {
-			tasksInDay[index] = tasks.get(key);
-			index++;
-		}
-		return tasksInDay;
-	}*/
-	
 	/**
-	 * gets all the tasks in a day 
+	 * prints all the tasks in a day 
 	 * @param date
 	 */
 	
 	public void getTaskFromDay(LocalDate date) {
 		Day day = days.get(date);
 		for (Time time : Day.allTimes) {
-			if (day.containsKey(time)) {
+			if (time.equals(new Time(23, 45))) {
 				System.out.println(time + " - " + tasks.get(day.getTaskKey(time)));
-			}
-			else if (time.equals(new Time(23, 45))) {
 				break;
+			}
+			else if (day.containsKey(time)) {
+				System.out.println(time + " - " + tasks.get(day.getTaskKey(time)));
 			}
 			else {
 				continue;
 			}
 		}
 	}
-
-	
-	/*public ArrayList<Task> getTaskFromDay(LocalDate date) {
-		Day day = days.get(date);
-		double[] taskKeysInDay = day.getDay();
-		ArrayList<Task> tasksInDay = new ArrayList<Task>();
-		for (double key : taskKeysInDay) {
-			tasksInDay.add(tasks.get(key));
-		}
-		return tasksInDay;
-	}*/
-	
-	/**
-	 * removes all instances of the task in a day and the tasks hashmap 
-	 * @param task
-	 */
-	/*public void removeTask(TaskOld task) {
-		LocalDate startDate = task.getStartDate();
-		double daysTillDue = task.getDaysTillDue();
-		for (int d = 0; d <= daysTillDue; d++) {
-			DayOld day = days.get(startDate);
-			for (int i = 0; i < day.getDay().length; i++) {
-				double[] dayList = day.getDay();
-				if (dayList[i] == task.getKey()) {
-					day.setIndex(i, 0);
-					days.replace(startDate, day);
-					days.replace(startDate, priorityReschedule(startDate));
-				}
-			}
-			startDate.plusDays(1);
-		}
-		tasks.remove(task.getKey());
-	}
-	
-	private void checkOverflow () {
-		
-	}*/
 	
 	private Day priorityReschedule(LocalDate today) {
 		Day day = days.get(today);
@@ -211,7 +172,7 @@ public class Controller{
 	    while(!sorted) {
 	        sorted = true;
 	        for (int i = 0; i < day.getSize() - 1; i++) {
-	        	if (!day.containsKey(Day.allTimes.get(i)) || !day.containsKey(Day.allTimes.get(i+1))) {
+	        	if (day.getTaskKey(Day.allTimes.get(i)) == 0.0 || day.getTaskKey(Day.allTimes.get(i+1)) == 0.0) {
 	        		continue;
 	        	}
 	        	else if (tasks.get(day.getTaskKey(Day.allTimes.get(i))).getCurrentDaysTillDue(today) > tasks.get(day.getTaskKey(Day.allTimes.get(i+1))).getCurrentDaysTillDue(today)) {
@@ -225,12 +186,37 @@ public class Controller{
 	    return day;
 	}
 	
-	/*private boolean compareTo(Task task1, Task task2) {
-		double daysTillDue1 = task1.getCurrentDaysTillDue();
-		double daysTillDue2 = task2.getCurrentDaysTillDue();
-		if (daysTillDue1 > daysTillDue2) {
-			return true;
-		}
-		return false;
-	}*/
+	public void saveSchedule() {
+		try { 
+        	FileWriter outputfile = new FileWriter(schedulesFile, true); 
+        	BufferedWriter br = new BufferedWriter(outputfile);
+            // create CSVWriter object filewriter object as parameter 
+            CSVWriter writer = new CSVWriter(br); 
+            for (LocalDate date: days.keySet()) {
+                String[] scheduleData = new String[99];
+                scheduleData[0] = Integer.toString(date.getYear());
+                scheduleData[1] = Integer.toString(date.getMonthValue());
+                scheduleData[2] = Integer.toString(date.getDayOfMonth());
+                Day day = days.get(date);
+                int index = 3;
+                for (Time time : Day.allTimes) {
+        			if (time.equals(new Time(23, 45))) {
+        				scheduleData[index] = Double.toString(day.getTaskKey(time));
+        				break;
+        			}
+        			else if (day.containsKey(time)) {
+        				scheduleData[index] = Double.toString(day.getTaskKey(time));        			}
+        			index++;
+        		}
+                writer.writeNext(scheduleData);
+            }
+            // closing writer connection 
+            writer.close(); 
+        } 
+        catch (IOException e) { 
+            // TODO Auto-generated catch block 
+            e.printStackTrace(); 
+        } 
+	}
+	
 }

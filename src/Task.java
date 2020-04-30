@@ -6,7 +6,7 @@ public class Task {
 	private String name;
 	private double hrs;
 	private ArrayList<Double> fifteensPerDay = new ArrayList<Double>();
-	private double daysTillDue;
+	private int daysTillDue;
 	private LocalDate startDate;
 	private final double key;
 	private boolean block;
@@ -22,23 +22,23 @@ public class Task {
 	 * @param daysTillDue: the number of days until the task is due
 	 * @param key: the reference for the task
 	 */
-	public Task(String name, double hrs, int daysTillDue, double key, boolean block) {
+	public Task(String name, double hrs, int daysTillDue, double key, LocalDate startDate) {
 		this.name = name;
 		this.hrs = hrs;
 		this.daysTillDue = daysTillDue;
 		this.key = key;
-		this.block = block;
+		this.block = false;
 		fifteensPerDay = amountPerDay(fifteens(hrs), daysTillDue, fifteensPerDay);
-		startDate = LocalDate.now();
+		this.startDate = startDate;
 	}
 	
-	public Task(String name, Time start, Time end, double key, boolean block) {
+	public Task(String name, Time start, Time end, double key, LocalDate startDate) {
 		this.name = name;
 		this.key = key;
-		this.block = block;
+		this.block = true;
 		this.start = start;
 		this.end = end;
-		startDate = LocalDate.now();
+		this.startDate = startDate;
 	}
 	
 	// Methods
